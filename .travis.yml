@@ -1,0 +1,21 @@
+language: java
+sudo: true
+dist: bionic
+
+services:
+  - docker
+
+env:
+  global:
+    - GIT_HASH=$(git rev-parse HEAD)
+    - DOCKER_IMAGE=konvio/kotlin-micronaut-graalvm
+
+before_install:
+  - chmod +x gradlew
+
+script:
+  - ./gradlew build
+  - docker build -t $DOCKER_IMAGE:latest -t $DOCKER_IMAGE:$GIT_HASH .
+  - echo $DOCKER_PASSWORD | docker login -u $DOCKER_USERNAME --password-stdin
+  - docker push $DOCKER_IMAGE:latest
+  - docker push $DOCKER_IMAGE:$GIT_HASH
