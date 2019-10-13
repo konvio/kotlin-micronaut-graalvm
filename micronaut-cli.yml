@@ -1,0 +1,5 @@
+profile: service
+defaultPackage: kotlin.micronaut.graalvm
+---
+testFramework: kotlintest
+sourceLanguage: kotlin
